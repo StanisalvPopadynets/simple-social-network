@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "358755183059",
+    "firebase_url": "https://reactnativenew-64873-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "reactnativenew-64873",
+    "storage_bucket": "reactnativenew-64873.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358755183059:android:394a840931af078f14e726",
+        "android_client_info": {
+          "package_name": "com.newyearstart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358755183059-6n30pbe0aamhp8ihkj1qhqbm5qulp9ns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg4IMgl9jo9nC51FQQwTo5SzqyjqkskcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358755183059-6n30pbe0aamhp8ihkj1qhqbm5qulp9ns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
