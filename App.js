@@ -7,7 +7,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
@@ -68,6 +68,7 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Text>Logged In</Text>
+      <Button title="Sign Out" onPress={async () => await auth().signOut()} />
     </View>
   );
 };

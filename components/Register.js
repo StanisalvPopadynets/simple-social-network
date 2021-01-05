@@ -2,6 +2,7 @@ import {useState} from 'react';
 import React from 'react';
 import {View, Button, TextInput, Text} from 'react-native';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const Register = ({navigation}) => {
   const [email, setEmail] = useState();
@@ -11,6 +12,12 @@ const Register = ({navigation}) => {
   const onSignUp = async () => {
     try {
       await auth().createUserWithEmailAndPassword(email, password);
+      // debugger;
+      console.log(auth().currentUser.uid);
+      await firestore()
+        .collection('users')
+        .doc(auth().currentUser.uid)
+        .set({name, email});
     } catch (error) {
       console.log(error);
     }
