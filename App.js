@@ -7,14 +7,22 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
+import {Provider} from 'react-redux';
+import {createStore, applyMiddleware} from 'redux';
+import roodReducer from './redux/reducers';
+import thunk from 'redux-thunk';
+
+const reduxStore = createStore(roodReducer, applyMiddleware(thunk));
 
 import LandingScreen from './components/Landing';
 import RegisterScreen from './components/Register';
 import LoginScreen from './components/Login';
+import MainScreen from './components/Main';
+import AddScreen from './components/Add';
 
 const Stack = createStackNavigator();
 
@@ -66,10 +74,18 @@ const App = () => {
     );
   }
   return (
-    <View style={styles.container}>
-      <Text>Logged In</Text>
-      <Button title="Sign Out" onPress={async () => await auth().signOut()} />
-    </View>
+    <Provider store={reduxStore}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Main">
+          <Stack.Screen
+            name="Main"
+            component={MainScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="Add" component={AddScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
