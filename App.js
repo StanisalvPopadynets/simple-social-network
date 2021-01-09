@@ -23,6 +23,7 @@ import RegisterScreen from './components/Register';
 import LoginScreen from './components/Login';
 import MainScreen from './components/Main';
 import AddScreen from './components/Add';
+import SaveScreen from './components/Save';
 
 const Stack = createStackNavigator();
 
@@ -83,6 +84,7 @@ const App = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen name="Add" component={AddScreen} />
+          <Stack.Screen name="Save" component={SaveScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

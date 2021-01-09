@@ -1,9 +1,9 @@
 import React, {PureComponent, useState, useEffect, useRef} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Button, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import Permissions from 'react-native-permissions';
 
-const Add = () => {
+const Add = ({navigation}) => {
   const [flash, setFlash] = useState('off');
   const [zoom, setZoom] = useState(0);
   const [autoFocus, setAutoFocus] = useState('on');
@@ -37,28 +37,34 @@ const Add = () => {
       setImageURI(data.uri);
     }
   };
-  if(!imageURI) {
+  if (!imageURI) {
     return (
-    <View style={styles.container}>
-      <RNCamera
-        ref={cameraRef}
-        style={styles.preview}
-        type={type}
-        flashMode={flash}
-      />
-      <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-        <TouchableOpacity onPress={takePicture} style={styles.capture}>
-          <Text style={{ fontSize: 14 }}> SNAP </Text>
-        </TouchableOpacity>
+      <View style={styles.container}>
+        <RNCamera
+          ref={cameraRef}
+          style={styles.preview}
+          type={type}
+          flashMode={flash}
+        />
+        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+          <TouchableOpacity onPress={takePicture} style={styles.capture}>
+            <Text style={{ fontSize: 14 }}> SNAP </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  );
-}
-if(imageURI) {
-  return (
-    <Image source={{ uri: imageURI }} style={{flex: 1}} />
-  )
-}
+    );
+  }
+  if (imageURI) {
+    return (
+      <View style={{flex: 1}}>
+        <Image source={{uri: imageURI}} style={{flex: 1}} />
+        <Button
+          title="Save"
+          onPress={() => navigation.navigate('Save', {imageURI})}
+        />
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
