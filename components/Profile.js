@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import {View, Text, StyleSheet, Image, FlatList, Button} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -7,7 +7,8 @@ import firestore from '@react-native-firebase/firestore';
 const Profile = (props) => {
   const [userPosts, setUserPosts] = useState([]);
   const [user, setUser] = useState(null);
-  const {posts, currentUser} = useSelector((state) => state.usersState);
+  const [isFollowing, setFollowing] = useState(false);
+  const {posts, currentUser, following} = useSelector((state) => state.usersState);
   useEffect(() => {
     if (props.route.params.uid === auth().currentUser.uid) {
       setUser(currentUser);
@@ -19,7 +20,6 @@ const Profile = (props) => {
         .get()
         .then((snapshot) => {
           if (snapshot.exists) {
-            console.log(snapshot.data());
             setUser(snapshot.data());
           } else {
             console.log('does not exist');
@@ -42,7 +42,27 @@ const Profile = (props) => {
         })
         .catch((err) => console.log(err.message));
     }
-  }, [props.route.params.uid, currentUser, posts]);
+    setFollowing(following.indexOf(props.route.params.uid) > -1); // check if a user is following the profile he is currently viewing
+  }, [props.route.params.uid, currentUser, posts, following]);
+
+  const follow = () => {
+    firestore()
+      .collection('following')
+      .doc(auth().currentUser.uid)
+      .collection('userFollowing')
+      .doc(props.route.params.uid)
+      .set({});
+  };
+
+  const unfollow = () => {
+    firestore()
+      .collection('following')
+      .doc(auth().currentUser.uid)
+      .collection('userFollowing')
+      .doc(props.route.params.uid)
+      .delete();
+  };
+
   if (!user) {
     return <View />;
   }
@@ -51,6 +71,16 @@ const Profile = (props) => {
     <View style={styles.container}>
       <Text>{user.name}</Text>
       <Text>{user.email}</Text>
+
+      {props.route.params.uid !== auth().currentUser.uid ? (
+        <View>
+          {isFollowing ? (
+            <Button title="Unfollow" onPress={() => unfollow()} />
+          ) : (
+            <Button title="Follow" onPress={() => follow()} />
+          )}
+        </View>
+      ) : void(0)}
       <View style={styles.containerGallery}>
         <FlatList
           numColumns={3}

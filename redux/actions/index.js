@@ -1,6 +1,10 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import {USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE} from '../constants';
+import {
+  USER_STATE_CHANGE,
+  USER_POSTS_STATE_CHANGE,
+  USER_FOLLOWING_STATE_CHANGE,
+} from '../constants';
 
 export const fetchUser = () => {
   return (dispatch) => {
@@ -36,5 +40,21 @@ export const fetchUserPosts = () => {
         dispatch({type: USER_POSTS_STATE_CHANGE, posts});
       })
       .catch((err) => console.log(err.message));
+  };
+};
+
+export const fetchUserFollowing = () => {
+  return (dispatch) => {
+    firestore()
+      .collection('following')
+      .doc(auth().currentUser.uid)
+      .collection('userFollowing')
+      .onSnapshot((snapshot) => {
+        const following = snapshot.docs.map((doc) => {
+          const id = doc.id;
+          return id;
+        });
+        dispatch({type: USER_FOLLOWING_STATE_CHANGE, following});
+      });
   };
 };

@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import auth from '@react-native-firebase/auth';
 
-import {fetchUser, fetchUserPosts} from '../redux/actions';
+import {fetchUser, fetchUserPosts, fetchUserFollowing} from '../redux/actions';
 import FeedScreen from './Feed';
 import ProfileScreen from './Profile';
 import SearchScreen from './Search';
@@ -15,11 +15,10 @@ const Tab = createMaterialBottomTabNavigator();
 
 const Main = () => {
   const dispatch = useDispatch();
-  const usersState = useSelector((state) => state.usersState);
   useEffect(() => {
     dispatch(fetchUser());
     dispatch(fetchUserPosts());
-    // fetchUserPosts();
+    dispatch(fetchUserFollowing());
   }, []);
   return (
     <Tab.Navigator initialRouteName="Feed" labeled={false}>
