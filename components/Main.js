@@ -4,7 +4,12 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import auth from '@react-native-firebase/auth';
 
-import {fetchUser, fetchUserPosts, fetchUserFollowing} from '../redux/actions';
+import {
+  fetchUser,
+  fetchUserPosts,
+  fetchUserFollowing,
+  userCleanUp,
+} from '../redux/actions';
 import FeedScreen from './Feed';
 import ProfileScreen from './Profile';
 import SearchScreen from './Search';
@@ -16,6 +21,7 @@ const Tab = createMaterialBottomTabNavigator();
 const Main = () => {
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(userCleanUp());
     dispatch(fetchUser());
     dispatch(fetchUserPosts());
     dispatch(fetchUserFollowing());

@@ -63,6 +63,10 @@ const Profile = (props) => {
       .delete();
   };
 
+  const onLogout = () => {
+    auth().signOut();
+  };
+
   if (!user) {
     return <View />;
   }
@@ -80,7 +84,9 @@ const Profile = (props) => {
             <Button title="Follow" onPress={() => follow()} />
           )}
         </View>
-      ) : void(0)}
+      ) : (
+        <Button title="Logout" onPress={onLogout} />
+      )}
       <View style={styles.containerGallery}>
         <FlatList
           numColumns={3}
