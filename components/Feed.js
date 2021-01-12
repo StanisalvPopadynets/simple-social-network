@@ -4,23 +4,23 @@ import {useDispatch, useSelector} from 'react-redux';
 
 const Feed = (props) => {
   const {posts: postsFromState, following} = useSelector((state) => state.usersState);
-  const {users, usersLoaded} = useSelector((state) => state.usersDataState);
-
+  const {users, usersFollowingLoaded} = useSelector((state) => state.usersDataState);
+  // debugger
   const [postsLocal, setPostsLocal] = useState([]);
 
   useEffect(() => {
     let posts = [];
-    if (usersLoaded === following.length) {
+    if (usersFollowingLoaded === following.length) {
       for (let i = 0; i < following.length; i++) {
         const user = users.find((el) => el.uid === following[i]);
         if (user !== undefined) {
           posts = [...posts, ...user.posts];
         }
       }
-      posts.sort((curr, next) => curr.creation - next.creatin);
+      posts.sort((curr, next) => curr.creation - next.creation);
       setPostsLocal(posts);
     }
-  }, [usersLoaded, following, users]);
+  }, [usersFollowingLoaded, following, users]);
 
   return (
     <View style={styles.container}>
@@ -33,6 +33,15 @@ const Feed = (props) => {
             <View style={styles.imageContainer}>
               <Text>{item.user.name}</Text>
               <Image style={styles.image} source={{uri: item.downloadURL}} />
+              <Text
+                onPress={() =>
+                  props.navigation.navigate('Comments', {
+                    postId: item.id,
+                    uid: item.user.uid,
+                  })
+                }>
+                View Comments...
+              </Text>
             </View>
           )}
         />

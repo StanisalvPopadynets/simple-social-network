@@ -24,6 +24,7 @@ import LoginScreen from './components/Login';
 import MainScreen from './components/Main';
 import AddScreen from './components/Add';
 import SaveScreen from './components/Save';
+import CommentsScreen from './components/Comments';
 
 const Stack = createStackNavigator();
 
@@ -85,6 +86,7 @@ const App = () => {
           />
           <Stack.Screen name="Add" component={AddScreen} />
           <Stack.Screen name="Save" component={SaveScreen} />
+          <Stack.Screen name="Comments" component={CommentsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

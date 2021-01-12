@@ -65,14 +65,13 @@ export const fetchUserFollowing = () => {
         });
         dispatch({type: USER_FOLLOWING_STATE_CHANGE, following});
         for (let i = 0; i < following.length; i++) {
-          dispatch(fetchUsersData(following[i]));
+          dispatch(fetchUsersData(following[i], true));
         }
       });
   };
 };
 
-export const fetchUsersData = (uid) => {
-  console.log('uidTop:', uid)
+export const fetchUsersData = (uid, shouldGetPosts) => {
   return (dispatch, getState) => {
     const found = getState().usersDataState.users.some((el) => el.uid === uid);
     if (!found) {
@@ -88,9 +87,12 @@ export const fetchUsersData = (uid) => {
               type: USERS_DATA_STATE_CHANGE,
               user,
             });
-            dispatch(fetchUsersFollowingPosts(user.uid));
+            // dispatch(fetchUsersFollowingPosts(user.uid));
           } else {
             console.log('does not exist');
+          }
+          if (shouldGetPosts) {
+            dispatch(fetchUsersFollowingPosts(uid));
           }
         })
         .catch((err) => console.log(err.message));
@@ -99,7 +101,6 @@ export const fetchUsersData = (uid) => {
 };
 
 export const fetchUsersFollowingPosts = (uid) => {
-  console.log(uid)
   return (dispatch, getState) => {
     firestore()
       .collection('posts')
