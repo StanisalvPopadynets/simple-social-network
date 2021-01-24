@@ -26,7 +26,6 @@ export const usersDataReducer = (state = initialState, action) => {
         feed: [...state.feed, ...action.posts],
       };
     case USERS_LIKES_STATE_CHANGE:
-      console.log(action)
       return {
         ...state,
         feed: state.feed.map(post => post.id == action.postId ? 

@@ -33,7 +33,6 @@ const Add = ({navigation}) => {
     if (cameraRef) {
       const options = {quality: 0.5, base64: true};
       const data = await cameraRef.current.takePictureAsync(options);
-      console.log(data.uri);
       setImageURI(data.uri);
     }
   };

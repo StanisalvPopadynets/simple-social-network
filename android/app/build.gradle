@@ -212,6 +212,7 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:26.2.0')
     implementation project(':@react-native-firebase_firestore')
+    implementation project(':react-native-config')
 
     implementation 'androidx.multidex:multidex:2.0.1'
 }
@@ -228,3 +229,4 @@ apply from: file("../../node_modules/@react-native-community/cli-platform-androi
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply from: '../../node_modules/react-native-vector-icons/fonts.gradle'
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

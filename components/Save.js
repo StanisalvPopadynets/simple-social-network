@@ -36,7 +36,6 @@ const Save = (props, {navigation}) => {
     };
     const taskComplete = (snapshot) => {
       snapshot.ref.getDownloadURL().then((snpsht) => {
-        console.log(snpsht);
         savePostData(snpsht);
       });
     };
