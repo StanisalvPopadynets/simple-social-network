@@ -7,6 +7,7 @@ import {
   USERS_DATA_STATE_CHANGE,
   USERS_POSTS_STATE_CHANGE,
   CLEAR_DATA,
+  USERS_LIKES_STATE_CHANGE,
 } from '../constants';
 
 export const userCleanUp = () => {
@@ -116,10 +117,30 @@ export const fetchUsersFollowingPosts = (uid) => {
           const id = doc.id;
           return {id, ...data, user};
         });
-        console.log(posts);
+        for (let i = 0; i < posts.length; i++) {
+          dispatch(fetchUsersFollowingLikes(uid, posts[i].id));
+        }
         dispatch({type: USERS_POSTS_STATE_CHANGE, posts, uid});
-        console.log(getState());
       })
       .catch((err) => console.log(err.message));
+  };
+};
+
+export const fetchUsersFollowingLikes = (uid, postId) => {
+  return (dispatch) => {
+    firestore()
+      .collection('posts')
+      .doc(uid)
+      .collection('userPosts')
+      .doc(postId)
+      .collection('likes')
+      .doc(auth().currentUser.uid)
+      .onSnapshot((snapshot) => {
+        let doesCurrentUserLike = false;
+        if (snapshot.exists) {
+          doesCurrentUserLike = true;
+        }
+        dispatch({type: USERS_LIKES_STATE_CHANGE, postId, doesCurrentUserLike});
+      });
   };
 };
